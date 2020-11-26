@@ -1,0 +1,16 @@
+.nav {
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+}
+
+.nav ul {
+  display: flex;
+  list-style-type: none;
+  margin: 0 10px;
+  align-self: end;
+}
+
+.nav ul li {
+  margin: 0 10px;
+}

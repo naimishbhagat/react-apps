@@ -3,7 +3,13 @@ const reducer = (state, action) => {
     return { ...state, cart: [] };
   }
   if (action.type === "REMOVE") {
-    const id = action.payload;
+    if (action.type === "CLEAR_CART") {
+      return { ...state, cart: [] };
+    }
+    if (action.type === "REMOVE") {
+      const id = action.payload;
+      return { ...state, cart: state.cart.filter((item) => item.id !== id) };
+    }
     return { ...state, cart: state.cart.filter((item) => item.id !== id) };
   }
   if (action.type === "INCREASE") {

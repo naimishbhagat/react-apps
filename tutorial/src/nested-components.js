@@ -1,19 +1,19 @@
-import React from 'react'
-import ReactDom from 'react-dom'
+import React from "react";
+import ReactDom from "react-dom";
 
-function Greeting () {
+function Greeting() {
   return (
-    <div className=''>
+    <div className="greeting">
       <Person />
       <Message />
     </div>
-  )
+  );
 }
 
 const Person = () => {
-  return <h2>John Doe</h2>
-}
+  return <h2>John Doe</h2>;
+};
 
-const Message = () => <p>This is my message</p>
+const Message = () => <p>This is my message</p>;
 
-ReactDom.render(<Greeting />, document.getElementById('root'))
+ReactDom.render(<Greeting />, document.getElementById("root"));

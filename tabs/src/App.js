@@ -1,67 +1,51 @@
-import React, { useState, useEffect } from 'react'
-import { FaAngleDoubleRight } from 'react-icons/fa'
-// ATTENTION!!!!!!!!!!
-// I SWITCHED TO PERMANENT DOMAIN
-const url = 'https://course-api.com/react-tabs-project'
-function App () {
-  const [loading, setLoading] = useState(true)
-  const [jobs, setJobs] = useState([])
-  const [value, setValue] = useState(0)
+import React from "react";
+const OPERATIONS = {
+  ADD: "ADD",
+  SUBTRACT: "SUBTRACT",
+};
 
-  const fetchJobs = async () => {
-    const response = await fetch(url)
-    const newJobs = await response.json()
-    setJobs(newJobs)
-    setLoading(false)
-  }
+function App() {
+  const [number, updateNumber] = React.useState(0);
 
-  useEffect(() => {
-    fetchJobs()
-  }, [])
-  if (loading) {
-    return (
-      <section className='section loading'>
-        <h1>Loading...</h1>
-      </section>
-    )
-  }
-  const { company, dates, duties, title } = jobs[value]
+  const [state, dispatch] = React.useReducer((state, action) => {
+    /* implement reducer */
+    if (action.type === OPERATIONS.ADD) {
+      const input = action.payload;
+      return { ...state, number: number + input };
+    }
+    if (action.type === OPERATIONS.SUBTRACT) {
+      // const number = action.payload;
+      return { ...state, number: number - number };
+    }
+    return state;
+  }, 0);
+
+  /* implement dispatches */
+  const add = () => dispatch({ type: OPERATIONS.ADD, payload: number });
+  const subtract = () =>
+    dispatch({ type: OPERATIONS.SUBTRACT, payload: number });
+
+  const handleNumberChange = (e) => updateNumber(Number(e.target.value));
+
   return (
-    <section className='section'>
-      <div className='title'>
-        <h2>Experience</h2>
-        <div className='underline'></div>
+    <div>
+      <div id="result">{state}</div>
+      <div>
+        <button id="add" onClick={add}>
+          Add
+        </button>
+        <button id="subtract" onClick={subtract}>
+          Subtract
+        </button>
       </div>
-      <div className='jobs-center'>
-        <div className='btn-container'>
-          {jobs.map((item, index) => {
-            return (
-              <button
-                key={item.id}
-                onClick={() => setValue(index)}
-                className={`job-btn ${index === value && 'active-btn'}`}
-              >
-                {item.company}
-              </button>
-            )
-          })}
-        </div>
-        <article className='job-info'>
-          <h3>{title}</h3>
-          <h4>{company}</h4>
-          <p className='job-date'>{dates}</p>
-          {duties.map((duty, index) => {
-            return (
-              <div key={index} className='job-desc'>
-                <FaAngleDoubleRight className='job-icon'></FaAngleDoubleRight>
-                <p>{duty}</p>
-              </div>
-            )
-          })}
-        </article>
+      <div>
+        <input type="text" value={number} onChange={handleNumberChange} />
       </div>
-    </section>
-  )
+    </div>
+  );
 }
 
-export default App
+document.body.innerHTML = "<div id='root'></div>";
+// const rootElement = document.getElementById("root");
+// ReactDOM.render(<App />, rootElement);
+export default App;
